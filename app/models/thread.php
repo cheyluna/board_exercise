@@ -26,7 +26,7 @@ class Thread extends AppModel
         return $threads;
     }
 
-    public static function getComments()
+    public function getComments()
     {
         $comments = array();
 
@@ -38,5 +38,7 @@ class Thread extends AppModel
         foreach ($rows as $row) {
             $comments[] = new Comment($row);
         }
+
+        return $comments;
     }
 }
