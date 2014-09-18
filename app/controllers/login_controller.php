@@ -9,6 +9,7 @@ class LoginController extends AppController
 
     public function checkUserLogin()
     {
+        $login = new Login;
         $unvalidated_user = new User;
         $page = Param::get('page_next');
 
@@ -16,7 +17,7 @@ class LoginController extends AppController
             case 'thread/index':
                 $unvalidated_user->username = Param::get('username');
                 $unvalidated_user->password = Param::get('password');
-                $validated_user = Login::checkValidUser($unvalidated_user);
+                $validated_user = $login->checkValidUser($unvalidated_user);
                 break;
             default:
                 throw new NotFoundException("{$page} is not found");
