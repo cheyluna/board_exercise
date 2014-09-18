@@ -22,10 +22,14 @@ class LoginController extends AppController
                 $user->username = Param::get('username');
                 $user->password = Param::get('password');
                 try {
-                    $login->checkValidUser($user);
-                } catch (ValidationException $e) {
+                    $user = $login->checkValidUser($user);
+                } catch (Exception $e) {
+                    if($e instanceof RecordNotFoundException) {
+                        $user->error_message = $e->getMessage();
+                    }
+
                     $page = 'index';
-                }
+                } 
                 break;
             default:
                 throw new NotFoundException("{$page} is not found");
