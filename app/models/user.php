@@ -8,7 +8,7 @@ class User extends AppModel
             ),
         ),
 
-        'body' => array(
+        'password' => array(
             'length' => array(
                 'validate_between', 1, 20,
             ),
