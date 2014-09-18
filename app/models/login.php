@@ -5,7 +5,7 @@ class Login extends AppModel
     {
         $db = DB::conn();
         $row = $db->row(
-        'SELECT * FROM user WHERE username = ?, password = ?',
+        'SELECT * FROM user WHERE username = ? AND password = ?',
         array($user->username, $user->password)
         );
 
