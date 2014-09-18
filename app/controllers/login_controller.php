@@ -3,6 +3,8 @@ class LoginController extends AppController
 {
     public function index()
     {
+        $user = new User;
+
         // TODO: Show login page
         $this->set(get_defined_vars());
     }
@@ -10,14 +12,20 @@ class LoginController extends AppController
     public function checkUserLogin()
     {
         $login = new Login;
-        $unvalidated_user = new User;
-        $page = Param::get('page_next');
+        $user = new User;
+        $page = Param::get('page_next', 'index');
 
         switch ($page) {
+            case 'index':
+                break;
             case 'thread/index':
-                $unvalidated_user->username = Param::get('username');
-                $unvalidated_user->password = Param::get('password');
-                $validated_user = $login->checkValidUser($unvalidated_user);
+                $user->username = Param::get('username');
+                $user->password = Param::get('password');
+                try {
+                    $login->checkValidUser($user);
+                } catch (ValidationException $e) {
+                    $page = 'index';
+                }
                 break;
             default:
                 throw new NotFoundException("{$page} is not found");
