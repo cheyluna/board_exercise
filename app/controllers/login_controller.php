@@ -24,10 +24,7 @@ class LoginController extends AppController
                 try {
                     $user = $login->checkValidUser($user);
                 } catch (Exception $e) {
-                    if($e instanceof RecordNotFoundException) {
-                        $user->error_message = $e->getMessage();
-                    }
-
+                    $user->error_message = $e->getMessage();
                     $page = 'index';
                 } 
                 break;
@@ -37,6 +34,10 @@ class LoginController extends AppController
         }
 
         $this->set(get_defined_vars());
+        if(!empty($user->error_message)) {
+            return $this->render($page);
+        } 
+         
         redirect($page);
     }
 }
