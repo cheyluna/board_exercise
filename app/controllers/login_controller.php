@@ -37,6 +37,6 @@ class LoginController extends AppController
         }
 
         $this->set(get_defined_vars());
-        $this->render($page);
+        redirect($page);
     }
 }
