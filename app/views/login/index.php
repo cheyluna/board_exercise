@@ -21,6 +21,15 @@
     </div>
 <?php endif ?>
 
+<?php if (!empty($user->error_message) && $user->error_message === 'no record found'): ?>
+    <div class="alert alert-block">
+
+    <h4 class="alert-heading">Validation error!</h4>
+    <div><em>Username</em> or <em>password</em> does not exist.</div>
+
+    </div>
+<?php endif ?>
+
 <form class="well" method="post" action="<?php eh(url('login/checkUserLogin')) ?>">
     <label>Username</label>
     <input type="text" class="span2" name="username" value="<?php eh(Param::get('username')) ?>">
