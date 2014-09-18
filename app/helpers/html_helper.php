@@ -12,3 +12,8 @@ function readable_text($s)
     $s = nl2br($s);
     echo $s;
 }
+
+function redirect($page)
+{
+    header("Location: /{$page}");
+}
