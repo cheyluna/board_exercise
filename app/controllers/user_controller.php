@@ -19,7 +19,7 @@ class UserController extends AppController
                 break;
             case 'home':
                 $user->username = Param::get('username');
-                $user->password = Param::get('password');
+                $user->password = sha1(param::get('password'));
 
                 try {
                     $account = $user->checkValidUser($user);

@@ -34,7 +34,7 @@
     <label>Username</label>
     <input type="text" class="span3" name="username" title="<?php eh(Param::get('username')) ?>">
     <label>Password</label>
-    <input type="text" class="span3" name="password" title="<?php eh(Param::get('password')) ?>">
+    <input type="password" class="span3" name="password" title="<?php eh(sha1(Param::get('password'))) ?>">
     <br />
     <input type="hidden" name="page_next" value="home">
     <button type="submit" class="btn btn-primary">Submit</button>
