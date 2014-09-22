@@ -30,3 +30,6 @@ spl_autoload_register(function($name) {
         }
     }
 });
+
+// enable session here because an error was encountered when enabled on core.php
+session_start();
