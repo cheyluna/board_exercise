@@ -1,6 +1,10 @@
 <?php
 class UserController extends AppController
 {
+    public function register()
+    {
+    }
+
     public function login()
     {
         $user = new User;
@@ -30,6 +34,9 @@ class UserController extends AppController
         $this->render($page);
     }
 
-    public function index(){
+    public function logout()
+    {
+        session_unset();
+        session_destroy();
     }
 }
