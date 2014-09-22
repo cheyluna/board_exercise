@@ -7,7 +7,7 @@ class ThreadController extends AppController
         $sort_by = Param::get('sort_by');
         $sort_order = Param::get('sort_order');
 
-        $threads = Thread::getAll();
+        $threads = Thread::getAll($sort_by, $sort_order, $page);
         $page_links = Pagination::createPageLinks($page, Thread::countThreads());
 
         $this->set(get_defined_vars());
