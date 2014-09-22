@@ -21,17 +21,21 @@ class Thread extends AppModel
         return new self($row);
     }
 
-    public static function getAll()
+    public static function getAll($sort_by, $order, $page)
     {
         $threads = array();
+        $order_by = self::sortThreads($sort_by, $order);
 
         $db = DB::conn();
-        $rows = $db->rows('SELECT * FROM thread');
+        $rows = $db->rows("SELECT t.id, t.title, u.username, t.created FROM thread t
+        INNER JOIN user u ON t.user_id = u.id {$order_by}");
         foreach ($rows as $row) {
             $threads[] = new Thread($row);
         }
 
-        return $threads;
+        $limit = Pagination::MAX_ROWS;
+        $offset = ($page - 1) * Pagination::MAX_ROWS;
+        return array_slice($threads, $offset, $limit);
     }
 
     public function getComments()
@@ -85,6 +89,35 @@ class Thread extends AppModel
         $db->commit();
     }
 
+
+    /**
+    * Sort all threads
+    * @param $sort_by, $sort_order
+    * @return order by query script
+    */
+    public static function sortThreads($sort_by, $sort_order)
+    {
+        switch ($sort_by) {
+            case 'title':
+                $order_by = "ORDER BY t.title {$sort_order}";
+                break;
+            case 'author':
+                $order_by = "ORDER BY u.username {$sort_order}";
+                break;
+            case 'created':
+                $order_by = "ORDER BY t.created {$sort_order}";
+                break;
+            default:
+                $order_by = "ORDER BY u.username ASC";
+                break;
+        }
+        return $order_by;
+    }
+
+    /**
+    * Count total number of all threads in DB for pagination
+    * @return int
+    */
     public static function countThreads()
     {
         $db = DB::conn();
