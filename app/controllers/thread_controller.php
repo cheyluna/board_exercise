@@ -3,7 +3,12 @@ class ThreadController extends AppController
 {
     public function index()
     {
+        $page = Pagination::setPage(Param::get('page'));
+        $sort_by = Param::get('sort_by');
+        $sort_order = Param::get('sort_order');
+
         $threads = Thread::getAll();
+        $page_links = Pagination::createPageLinks($page, Thread::countThreads());
 
         $this->set(get_defined_vars());
     }
