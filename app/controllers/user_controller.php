@@ -17,7 +17,7 @@ class UserController extends AppController
         switch ($page) {
             case 'login':
                 break;
-            case 'thread/index':
+            case 'home':
                 $user->username = Param::get('username');
                 $user->password = Param::get('password');
 
