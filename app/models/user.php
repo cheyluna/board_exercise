@@ -3,16 +3,21 @@ class User extends AppModel
 {
     private $is_failed_login = false;
 
+    const MIN_USER_LENGTH = 1;
+    const MAX_USER_LENGTH = 20;
+    const MIN_PASSWORD_LENGTH = 1;
+    const MAX_PASSWORD_LENGTH = 255;
+
     public $validation = array(
         'username' => array(
             'length' => array(
-                'validate_between', 1, 20,
+                'validate_between', self::MIN_USER_LENGTH, self::MAX_USER_LENGTH,
             ),
         ),
 
         'password' => array(
             'length' => array(
-                'validate_between', 1, 20,
+                'validate_between', self::MIN_PASSWORD_LENGTH, self::MAX_PASSWORD_LENGTH,
             ),
         ),
     );
