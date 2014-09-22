@@ -84,4 +84,12 @@ class Thread extends AppModel
 
         $db->commit();
     }
+
+    public static function countThreads()
+    {
+        $db = DB::conn();
+        $thread_count = $db->value("SELECT COUNT(id) FROM thread");
+
+        return $thread_count;
+    }
 }
