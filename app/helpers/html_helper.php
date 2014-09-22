@@ -13,7 +13,17 @@ function readable_text($s)
     echo $s;
 }
 
-function redirect($page)
+function redirect($controller)
 {
-    header("Location: /{$page}");
+    switch ($controller) {
+        case 'thread':
+           header('Location: /thread/index');
+            break;
+        case 'user':
+            header('Location: /user/login');
+            break;
+        default:
+            header('Location: login');
+            break;
+    }
 }

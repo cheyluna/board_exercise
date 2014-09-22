@@ -1,7 +1,7 @@
 <?php
 class Pagination
 {
-    const MAX_ROWS = 2;
+    const MAX_ROWS = 5;
     const PAGINATION_LIMIT = 4;
 
     public static $pagination_for;

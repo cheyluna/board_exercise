@@ -21,21 +21,26 @@
     </div>
 <?php endif ?>
 
-<?php if (!empty($user->error_message) && $user->error_message === 'no record found'): ?>
+<?php if ($user->isFailedLogin()): ?>
     <div class="alert alert-block">
 
     <h4 class="alert-heading">Validation error!</h4>
-    <div><em>Username</em> or <em>password</em> does not exist.</div>
+    <div>Invalid <em>username</em> or <em>password</em>.</div>
 
     </div>
 <?php endif ?>
 
-<form class="well" method="post" action="<?php eh(url('login/checkUserLogin')) ?>">
+<form class="well" method="post" action="<?php eh(url('user/login')) ?>">
     <label>Username</label>
-    <input type="text" class="span2" name="username" value="<?php eh(Param::get('username')) ?>">
+    <input type="text" class="span3" name="username" title="<?php eh(Param::get('username')) ?>">
     <label>Password</label>
-    <input type="text" class="span2" name="password" value="<?php eh(Param::get('password')) ?>">
+    <input type="text" class="span3" name="password" title="<?php eh(Param::get('password')) ?>">
     <br />
     <input type="hidden" name="page_next" value="thread/index">
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+<div>
+<em>Don't have an account yet?</em>
+<a class="btn btn-danger" href="<?php eh(url('user/register')) ?>">Register Here</a>
+</div>

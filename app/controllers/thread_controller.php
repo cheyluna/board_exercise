@@ -1,6 +1,14 @@
 <?php
 class ThreadController extends AppController
 {
+    public function __construct($name)
+    {
+        parent::__construct($name);
+        if(is_logged_in() === false) {
+            redirect($controller = 'user');
+        }
+    }
+
     public function index()
     {
         $page = Pagination::setPage(Param::get('page'));
@@ -11,6 +19,8 @@ class ThreadController extends AppController
         $page_links = Pagination::createPageLinks($page, Thread::countThreads());
 
         $this->set(get_defined_vars());
+        session_unset();
+        session_destroy();
     }
 
     public function view()
