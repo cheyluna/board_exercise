@@ -23,6 +23,9 @@ class LoginController extends AppController
                 $user->password = Param::get('password');
                 try {
                     $user = $login->checkValidUser($user);
+                    $_SESSION['id'] = $user->id;
+                    $_SESSION['username'] = $user->username;
+                    $_SESSION['name'] = $user->name;
                 } catch (Exception $e) {
                     $user->error_message = $e->getMessage();
                     $page = 'index';
