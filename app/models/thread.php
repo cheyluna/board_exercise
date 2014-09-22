@@ -78,6 +78,7 @@ class Thread extends AppModel
         $db = DB::conn();
         $db->begin();
         $params = array(
+            'user_id' => $_SESSION['id'],
             'title' => $this->title,
         );
         $db->insert('thread', $params);
