@@ -17,7 +17,15 @@
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-          <a class="brand" href="/thread/index">DietCake Board Exercise</a>
+          <?php if (isset($_SESSION['username'])): ?>
+          <a class="brand pull-left" href="#"><i class="icon-fire"></i> DietCake Board Exercise</a>
+          <a class="btn btn-danger btn-small navbar-btn pull-right" href="<?php eh(url('user/logout')) ?>">Log Out</a>
+          <a class="btn btn-default btn-small navbar-btn pull-right" href="/"><i class="icon-home"></i> Home</a>
+          <p class="navbar-text pull-right">Hello <?php eh($_SESSION['name'])?>!&nbsp;</p>
+          </p>
+          <? else: ?>
+          <a class="brand pull-left" href="#"><i class="icon-fire"></i> DietCake Board Exercise</a>
+          <?php endif ?>
         </div>
       </div>
     </div>

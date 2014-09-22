@@ -7,6 +7,10 @@ class UserController extends AppController
 
     public function login()
     {
+        if(is_logged_in() === true) {
+            redirect($controller = 'thread');
+        }
+
         $user = new User;
         $page = Param::get('page_next', 'login');
 
@@ -16,6 +20,7 @@ class UserController extends AppController
             case 'thread/index':
                 $user->username = Param::get('username');
                 $user->password = Param::get('password');
+
                 try {
                     $account = $user->checkValidUser($user);
                     $_SESSION['id'] = $account->id;
@@ -38,5 +43,7 @@ class UserController extends AppController
     {
         session_unset();
         session_destroy();
+
+        redirect($controller = 'login');
     }
 }
