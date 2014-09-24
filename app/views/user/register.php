@@ -9,9 +9,9 @@
     <?php endif ?>
     <?php if (!empty($user->validation_errors['email']['format'])): ?>
         <div>Invalid <em>email address</em>.</div>
-        <?php if (!empty($user->validation_errors['email']['availability'])): ?>
-            <div><em>Email Address</em> already used by another user.</div>
-        <?php endif?>
+    <?php endif ?>
+    <?php if (!empty($user->validation_errors['email']['availability'])): ?>
+        <div><em>Email Address</em> already used by another user.</div>
     <?php endif ?>
     <?php if (!empty($user->validation_errors['username']['length'])): ?>
         <div><em>Username</em> must be between
@@ -29,7 +29,7 @@
         </div>
     <?php endif ?>
     <?php if (!empty($user->validation_errors['confirm_password']['match'])): ?>
-        <div><em>Password</em> does not match.</div>
+        <div><em>Passwords</em> do not match.</div>
     <?php endif ?>
 
     </div>
@@ -63,6 +63,5 @@
     </tr>
 </table>
 
-<?php //this will tell the UserController to create a new user ?>
 <input type="hidden" name="next_page" value="register_ok">
 </form>
