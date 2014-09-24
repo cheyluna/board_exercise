@@ -45,6 +45,8 @@ class Pagination
         $next = $current_page + 1;
         $left_pagenum = $current_page - self::PAGINATION_LIMIT;
         $right_pagenum = $current_page + self::PAGINATION_LIMIT;
+        $page_links .= self::createFirstLink();
+
         // Links will be generated if there are more than 1 page.
         if ($last != 1) {
             $page_links .= self::createPreviousLink($current_page, $previous);
@@ -57,7 +59,15 @@ class Pagination
             }
             $page_links .= self::createNextLink($current_page, $last, $next);
         }
+
+        $page_links .= self::createLastLink($last);
+
         return $page_links;
+    }
+
+    public static function createFirstLink()
+    {
+        return "<a class='btn btn-small' href='?sort_by=" . Param::get('sort_by') . "&sort_order=" . Param::get('sort_order') . "&page=1'><<</a> &nbsp; &nbsp;";
     }
 
     public static function createPreviousLink($page_num, $previous)
@@ -66,13 +76,13 @@ class Pagination
         {
             switch (self::$pagination_for) {
                 case 'comment':
-                return "<a class='btn btn-small' href='?thread_id=" . Param::get('thread_id') . "&page={$previous}'>Previous</a> &nbsp; &nbsp;";
+                return "<a class='btn btn-small' href='?thread_id=" . Param::get('thread_id') . "&page={$previous}'><</a> &nbsp; &nbsp;";
                 case 'search':
-                return "<a class='btn btn-small' href='?keyword=" . Param::get('keyword') . "&search_by=" . Param::get('search_by') . "&page={$previous}'>Previous</a> &nbsp; &nbsp;";
+                return "<a class='btn btn-small' href='?keyword=" . Param::get('keyword') . "&search_by=" . Param::get('search_by') . "&page={$previous}'><</a> &nbsp; &nbsp;";
                 case 'my_threads':
-                return "<a class='btn btn-small' href='?user_id=" . Param::get('user_id') . "&page={$previous}'>Previous</a> &nbsp; &nbsp;";
+                return "<a class='btn btn-small' href='?user_id=" . Param::get('user_id') . "&page={$previous}'><</a> &nbsp; &nbsp;";
                 default:
-                return "<a class='btn btn-small' href='?sort_by=" . Param::get('sort_by') . "&sort_order=" . Param::get('sort_order') . "&page={$previous}'>Previous</a> &nbsp; &nbsp;";
+                return "<a class='btn btn-small' href='?sort_by=" . Param::get('sort_by') . "&sort_order=" . Param::get('sort_order') . "&page={$previous}'><</a> &nbsp; &nbsp;";
             }
         } else
         return null;
@@ -120,15 +130,20 @@ class Pagination
         {
             switch (self::$pagination_for) {
                 case 'comment':
-                return "&nbsp; &nbsp; <a class='btn btn-small' href='?thread_id=" . Param::get('thread_id') . "&page={$next}'>Next</a>";
+                return "&nbsp; &nbsp; <a class='btn btn-small' href='?thread_id=" . Param::get('thread_id') . "&page={$next}'>></a> &nbsp; &nbsp;";
                 case 'search':
-                return "&nbsp; &nbsp; <a class='btn btn-small' href='?keyword=" . Param::get('keyword') . "&search_by=" . Param::get('search_by') . "&page={$next}'>Next</a>";
+                return "&nbsp; &nbsp; <a class='btn btn-small' href='?keyword=" . Param::get('keyword') . "&search_by=" . Param::get('search_by') . "&page={$next}'>></a> &nbsp; &nbsp;";
                 case 'my_threads':
-                return "&nbsp; &nbsp; <a class='btn btn-small' href='?user_id=" . Param::get('user_id') . "&page={$next}'>Next</a>";
+                return "&nbsp; &nbsp; <a class='btn btn-small' href='?user_id=" . Param::get('user_id') . "&page={$next}'>></a> &nbsp; &nbsp;";
                 default:
-                return "<a class='btn btn-small' href='?sort_by=" . Param::get('sort_by') . "&sort_order=" . Param::get('sort_order') . "&page={$next}'>Next</a>";
+                return "<a class='btn btn-small' href='?sort_by=" . Param::get('sort_by') . "&sort_order=" . Param::get('sort_order') . "&page={$next}'>></a> &nbsp; &nbsp;";
             }
         } else
         return null;
+    }
+
+    public static function createLastLink($last_page_num)
+    {
+        return "<a class='btn btn-small' href='?sort_by=" . Param::get('sort_by') . "&sort_order=" . Param::get('sort_order') . "&page={$last_page_num}'>>></a> &nbsp; &nbsp;";
     }
 }
