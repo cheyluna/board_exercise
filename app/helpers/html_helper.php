@@ -6,11 +6,32 @@ function eh($string)
     echo htmlspecialchars($string, ENT_QUOTES);
 }
 
-function readable_text($s)
+function readable_text($string)
 {
-    $s = htmlspecialchars($s, ENT_QUOTES);
-    $s = nl2br($s);
-    echo $s;
+    $string = htmlspecialchars($string, ENT_QUOTES);
+    $s = nl2br($string);
+    echo $string;
+}
+
+function letters_only($string)
+{
+    return preg_match ("/^[a-zA-Z\s]+$/",$string);
+}
+
+function email_valid($email)
+{
+    return filter_var($email, FILTER_VALIDATE_EMAIL);
+}
+
+function is_not_available($str1, $str2 = true, $inverse = true)
+{
+    $is_match = ($str1 === $str2);
+    return $inverse !== $is_match;
+}
+
+function match_password($password, $confirm_password)
+{
+    return $password === $confirm_password;
 }
 
 function redirect($controller)
