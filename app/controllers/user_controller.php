@@ -3,6 +3,36 @@ class UserController extends AppController
 {
     public function register()
     {
+        if(is_logged_in() === true) {
+            redirect($controller = 'thread');
+        }
+
+        $user = new User;
+        $page = Param::get('next_page', 'register');
+
+        switch ($page) {
+            case 'register':
+                break;
+            case 'register_ok':
+                $user->name = Param::get('name');
+                $user->email = Param::get('email');
+                $user->username = Param::get('username');
+                $user->password = Param::get('password');
+                $user->confirm_password = Param::get('confirm_password');   
+
+                try {
+                    $user->register($user);
+                } catch (ValidationException $e) {
+                    $page = 'register';
+                }
+                break;
+            default:
+                throw new NotFoundException("{$page} not found");
+            break;
+        }
+
+        $this->set(get_defined_vars());
+        $this->render($page);
     }
 
     public function login()
