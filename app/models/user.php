@@ -6,7 +6,7 @@ class User extends AppModel
     const MIN_USER_LENGTH = 1;
     const MAX_USER_LENGTH = 20;
     const MIN_PASSWORD_LENGTH = 1;
-    const MAX_PASSWORD_LENGTH = 255;
+    const MAX_PASSWORD_LENGTH = 20;
 
     public $validation = array(
         'username' => array(
@@ -31,7 +31,7 @@ class User extends AppModel
         $db = DB::conn();
         $row = $db->row(
         'SELECT * FROM user WHERE username = ? AND password = ?',
-        array($user->username, $user->password)
+        array($user->username, $user->sha1_password)
         );
 
         if (!$row) {
