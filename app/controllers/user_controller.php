@@ -70,6 +70,32 @@ class UserController extends AppController
         $this->render($page);
     }
 
+    public function profile()
+    {
+        if(is_logged_in() === false) {
+            redirect();
+        }
+
+        $update = false;
+        $user = new User;
+        $user->id = $_SESSION['id'];
+        $details = $user->getDetails($user->id);
+
+        if(isset($_POST['btnEdit'])) {
+            try {
+                $user->name = Param::get('name');
+                $user->email = Param::get('email');
+                $user->password = Param::get('password');
+                $user->confirm_password = Param::get('confirm_password');
+                $update = $user->updateProfile($user);
+            } catch (ValidationException $e) {
+                //invalid input message set to view
+            }
+        }
+
+        $this->set(get_defined_vars());
+    }
+
     public function logout()
     {
         session_unset();

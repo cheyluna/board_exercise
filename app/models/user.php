@@ -54,7 +54,7 @@ class User extends AppModel
     {
         $this->validation['name']['format'][] = $this->name;
         $this->validation['email']['format'][] = $this->email;
-        $this->email_exists = $this->checkAvailability($this->email, $check='email');
+        $this->email_exists = $this->checkAvailability($this->email, $check='new_email');
         $this->validation['email']['availability'][] = $this->email_exists;
         $this->validation['email']['availability'][] = true;
         $this->username_exists = $this->checkAvailability($this->username, $check='username');
@@ -89,8 +89,11 @@ class User extends AppModel
             case 'username':
                $query = "SELECT username FROM user WHERE username = ?";
                 break;
-            case 'email':
+            case 'new_email':
                 $query = "SELECT email FROM user WHERE email = ?";
+                break;
+            case 'existing_email':
+                $query = "SELECT email FROM user WHERE id != {$_SESSION['id']} AND email = ?";
                 break;
             default:
                 $query = "";
@@ -100,6 +103,55 @@ class User extends AppModel
         $db = DB::conn();
         $row = $db->value($query, array($input));
         return $row;
+    }
+
+    /**
+    * Get user information from DB
+    * @param $user_id
+    * @return array
+    */
+    public function getDetails($user_id)
+    {
+        $db = DB::conn();
+        $row = $db->row("SELECT id, name, username, email FROM user WHERE id = ?",
+        array($user_id));
+
+        return ($row) ? new self($row) : null;
+    }
+
+    /**
+    * Edit user information
+    * @param $user
+    * @return bool
+    */
+    public function updateProfile($user)
+    {
+        $this->validation['name']['format'][] = $this->name;
+        $user->validation['email']['format'][] = $this->email;
+        $this->email_exists = $this->checkAvailability($this->email, $check='existing_email');
+        $this->validation['email']['availability'][] = $this->email_exists;
+        $this->validation['email']['availability'][] = true;
+        $user->validation['confirm_password']['match'][] = $this->password;
+        $user->validation['confirm_password']['match'][] = $this->confirm_password;
+        $user->validate();
+
+        if($user->hasError()) {
+            throw new ValidationException("invalid inputs");
+        }
+
+        $params = array(
+            'name' => $this->name,
+            'email' => $this->email,
+            'password' => sha1($this->password)
+        );
+
+        $where_params = array(
+            'id' => $this->id
+        );
+
+        $db = DB::conn();
+        $db->update('user', $params, $where_params);
+        return true;
     }
 
     public function checkValidUser(User $user)
