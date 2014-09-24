@@ -16,8 +16,6 @@
 
 <hr>
 <form class="well" method="post" action="<?php eh(url("thread/write")) ?>">
-    <label>Your name</label>
-    <input type="text" class="span2" name="name" value="<?php eh(Param::get("name")) ?>">
     <label>Comment</label>
     <textarea name="body"><?php eh(Param::get("body")) ?></textarea>
     <br />
