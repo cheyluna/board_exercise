@@ -27,7 +27,7 @@ class Thread extends AppModel
         $order_by = self::sortThreads($sort_by, $order);
 
         $db = DB::conn();
-        $rows = $db->rows("SELECT t.id, t.title, u.username, t.created FROM thread t
+        $rows = $db->rows("SELECT t.id, t.title, u.name, t.created FROM thread t
         INNER JOIN user u ON t.user_id = u.id {$order_by}");
         foreach ($rows as $row) {
             $threads[] = new Thread($row);
@@ -44,7 +44,9 @@ class Thread extends AppModel
 
         $db = DB::conn();
         $rows = $db->rows(
-        'SELECT * FROM comment WHERE thread_id = ? ORDER BY created ASC',
+        'SELECT c.id, c.body, u.name, c.created FROM comment c
+        INNER JOIN user u ON c.user_id = u.id
+        WHERE thread_id = ? ORDER BY created ASC',
         array($this->id)
         );
         foreach ($rows as $row) {
@@ -62,8 +64,8 @@ class Thread extends AppModel
 
         $db = DB::conn();
         $db->query(
-        'INSERT INTO comment SET thread_id = ?, username = ?, body = ?, created = NOW()',
-        array($this->id, $comment->username, $comment->body)
+        'INSERT INTO comment SET thread_id = ?, user_id = ?, body = ?, created = NOW()',
+        array($this->id, $_SESSION['id'], $comment->body)
         );
     }
 

@@ -5,7 +5,7 @@
 <div class="comment">
 
     <div class="meta">
-        <?php eh($k + 1) ?>: <?php eh($v->username) ?> <?php eh($v->created) ?>
+        <?php eh($k + 1) ?>: <?php eh($v->name) ?> <?php eh($v->created) ?>
     </div>
 
     <div><?php readable_text($v->body) ?></div>
@@ -17,7 +17,7 @@
 <hr>
 <form class="well" method="post" action="<?php eh(url("thread/write")) ?>">
     <label>Your name</label>
-    <input type="text" class="span2" name="username" value="<?php eh(Param::get("username")) ?>">
+    <input type="text" class="span2" name="name" value="<?php eh(Param::get("name")) ?>">
     <label>Comment</label>
     <textarea name="body"><?php eh(Param::get("body")) ?></textarea>
     <br />

@@ -15,7 +15,7 @@
             </a>
         </td>
         <td>
-            <?php eh($v->username) ?>
+            <?php eh($v->name) ?>
         </td>
         <td>
             <?php eh($v->created) ?>
