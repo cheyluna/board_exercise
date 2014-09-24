@@ -3,15 +3,13 @@
 <table class="table table-condensed table-striped table-hover">
     <thead>
     <tr>
-        <th>Number</th>
         <th>Author</th>
         <th>Comment</th>
         <th>Date Created</th>
     </tr>
     </thead>
-    <?php foreach ($comments as $k => $v): ?>
+    <?php foreach ($comments as $v): ?>
     <tr>
-        <td><?php eh($k + 1) ?></td>
         <td><?php eh($v->name) ?></td>
         <td><?php readable_text($v->body) ?></td>
         <td><?php eh($v->created) ?></td>

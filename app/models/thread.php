@@ -27,8 +27,8 @@ class Thread extends AppModel
         $order_by = self::sortThreads($sort_by, $order);
 
         $db = DB::conn();
-        $rows = $db->rows("SELECT t.id, t.title, u.name, t.created FROM thread t
-        INNER JOIN user u ON t.user_id = u.id {$order_by}");
+        $rows = $db->rows('SELECT t.id, t.title, u.name, t.created FROM thread t
+        INNER JOIN user u ON t.user_id = u.id ORDER BY created DESC');
         foreach ($rows as $row) {
             $threads[] = new Thread($row);
         }
@@ -38,13 +38,12 @@ class Thread extends AppModel
         return array_slice($threads, $offset, $limit);
     }
 
-    public function getComments()
+    public function getComments($page)
     {
         $comments = array();
 
         $db = DB::conn();
-        $rows = $db->rows(
-        'SELECT c.id, c.body, u.name, c.created FROM comment c
+        $rows = $db->rows('SELECT c.id, c.body, u.name, c.created FROM comment c
         INNER JOIN user u ON c.user_id = u.id
         WHERE thread_id = ? ORDER BY created ASC',
         array($this->id)
@@ -53,7 +52,9 @@ class Thread extends AppModel
             $comments[] = new Comment($row);
         }
 
-        return $comments;
+        $limit = Pagination::MAX_ROWS;
+        $offset = ($page - 1) * Pagination::MAX_ROWS;
+        return array_slice($comments, $offset, $limit);
     }
 
     public function write(Comment $comment)
@@ -127,5 +128,18 @@ class Thread extends AppModel
         $thread_count = $db->value("SELECT COUNT(id) FROM thread");
 
         return $thread_count;
+    }
+
+    /**
+    * Count total number of all comments per thread in DB for pagination
+    * @return int
+    */
+    public static function countComments($thread_id)
+    {
+        $db = DB::conn();
+        $comment_count = $db->value("SELECT COUNT(id) FROM comment WHERE thread_id = ?",
+        array($thread_id));
+
+        return $comment_count;
     }
 }
