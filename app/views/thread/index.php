@@ -1,14 +1,29 @@
 <h1>All threads</h1>
-        
-<ul>
-    <?php foreach ($threads as $v): ?>
-    <li>
-    <a href="<?php eh(url('thread/view', array('thread_id' => $v->id))) ?>">
-    <?php eh($v->title) ?></a>
-    </li>
-    <?php endforeach ?>
-</ul>
 
+<table class="table table-condensed table-striped table-hover">
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Date Created</th>
+    </tr>
+    </thead>
+    <?php foreach ($threads as $v): ?>
+    <tr>
+        <td><a href="<?php eh(url('thread/view', array('thread_id'=>$v->id))) ?>">
+            <?php eh($v->title) ?>
+            </a>
+        </td>
+        <td>
+            <?php eh($v->username) ?>
+        </td>
+        <td>
+            <?php eh($v->created) ?>
+        </td>
+    </tr>
+    <?php endforeach ?>
+</table>
+        
 <div class="pagination">
     <?php echo $page_links ?>
 </div>
