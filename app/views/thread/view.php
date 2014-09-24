@@ -1,18 +1,27 @@
 <h1><?php eh($thread->title) ?></h1>
 
-<?php foreach ($comments as $k => $v): ?>
+<table class="table table-condensed table-striped table-hover">
+    <thead>
+    <tr>
+        <th>Number</th>
+        <th>Author</th>
+        <th>Comment</th>
+        <th>Date Created</th>
+    </tr>
+    </thead>
+    <?php foreach ($comments as $k => $v): ?>
+    <tr>
+        <td><?php eh($k + 1) ?></td>
+        <td><?php eh($v->name) ?></td>
+        <td><?php readable_text($v->body) ?></td>
+        <td><?php eh($v->created) ?></td>
+    </tr>
+    <?php endforeach ?>
+</table>
 
-<div class="comment">
-
-    <div class="meta">
-        <?php eh($k + 1) ?>: <?php eh($v->name) ?> <?php eh($v->created) ?>
-    </div>
-
-    <div><?php readable_text($v->body) ?></div>
-
+<div class="pagination">
+    <?php echo $page_links ?>
 </div>
-
-<?php endforeach ?>
 
 <hr>
 <form class="well" method="post" action="<?php eh(url("thread/write")) ?>">
