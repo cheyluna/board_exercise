@@ -108,18 +108,24 @@ class Thread extends AppModel
             throw new ValidationException('invalid thread or comment');
         }
 
-        $db = DB::conn();
-        $db->begin();
-        $params = array(
-            'user_id' => $_SESSION['id'],
-            'title' => $this->title,
-        );
-        $db->insert('thread', $params);
-        $this->id = $db->lastInsertId();
+        try {
+            $db = DB::conn();
+            $db->begin();
+            $params = array(
+                'user_id' => $_SESSION['id'],
+                'title' => $this->title,
+            );
+            $db->insert('thread', $params);
 
-        // write first comment at the same time
-        $this->write($comment);
-        $db->commit();
+            // write first comment at the same time
+            $this->id = $db->lastInsertId();
+            $this->write($comment);
+
+            $db->commit();
+        } catch (ValidationException $e) {
+            $db->rollback();
+            throw $e;
+        }
     }
 
 
@@ -167,8 +173,11 @@ class Thread extends AppModel
     public static function countComments($thread_id)
     {
         $db = DB::conn();
-        $comment_count = $db->value('SELECT COUNT(id) FROM comment WHERE thread_id = ?',
-        array($thread_id));
+        $comment_count = $db->value('SELECT COUNT(id)
+        FROM comment
+        WHERE thread_id = ?',
+        array($thread_id)
+        );
 
         return $comment_count;
     }
