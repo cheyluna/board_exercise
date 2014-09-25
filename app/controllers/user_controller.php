@@ -3,7 +3,7 @@ class UserController extends AppController
 {
     public function register()
     {
-        if(is_logged_in() === true) {
+        if(is_logged_in()) {
             redirect($controller = 'thread');
         }
 
@@ -37,7 +37,7 @@ class UserController extends AppController
 
     public function login()
     {
-        if(is_logged_in() === true) {
+        if(is_logged_in()) {
             redirect($controller = 'thread');
         }
 
