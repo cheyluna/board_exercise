@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>DietCake <?php eh($title) ?></title>
+    <title>DietCake Board Exercise</title>
 
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -24,7 +24,7 @@
           <a class="btn btn-default btn-small navbar-btn pull-right" href="/"><i class="icon-home"></i> Home</a>
           <p class="navbar-text pull-right">Hello <?php eh($_SESSION['name'])?>!&nbsp;</p>
           </p>
-          <? else: ?>
+          <?php else: ?>
           <a class="brand pull-left" href="#"><i class="icon-fire"></i> DietCake Board Exercise</a>
           <?php endif ?>
         </div>

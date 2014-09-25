@@ -48,7 +48,7 @@ class User extends AppModel
 
     /**
     * Add a new user
-    * @param $user
+    * @param object $user
     */
     public function register(User $user)
     {
@@ -65,7 +65,7 @@ class User extends AppModel
         $this->validate();
 
         if($this->hasError()) {
-            throw new ValidationException("invalid inputs");
+            throw new ValidationException('invalid inputs');
         } else {
             $params = array(
             'name' => $this->name,
@@ -81,22 +81,24 @@ class User extends AppModel
 
     /**
     * Check if username/email already exists
-    * @return single value
+    * @param string $input value to be checked
+    * @param string $check classification of value to be checked 
+    * @return array $row
     */
     public function checkAvailability($input, $check)
     {
         switch ($check) {
             case 'username':
-               $query = "SELECT username FROM user WHERE username = ?";
+               $query = 'SELECT username FROM user WHERE username = ?';
                 break;
             case 'new_email':
-                $query = "SELECT email FROM user WHERE email = ?";
+                $query = 'SELECT email FROM user WHERE email = ?';
                 break;
             case 'existing_email':
                 $query = "SELECT email FROM user WHERE id != {$_SESSION['id']} AND email = ?";
                 break;
             default:
-                $query = "";
+                $query = '';
                 break;
         }
 
@@ -106,14 +108,14 @@ class User extends AppModel
     }
 
     /**
-    * Get user information from DB
-    * @param $user_id
-    * @return array
+    * Get information for single user
+    * @param int $user_id user ID
+    * @return array $row
     */
-    public function getDetails($user_id)
+    public function getUserDetails($user_id)
     {
         $db = DB::conn();
-        $row = $db->row("SELECT id, name, username, email FROM user WHERE id = ?",
+        $row = $db->row('SELECT id, name, username, email FROM user WHERE id = ?',
         array($user_id));
 
         return ($row) ? new self($row) : null;
@@ -121,22 +123,22 @@ class User extends AppModel
 
     /**
     * Edit user information
-    * @param $user
-    * @return bool
+    * @param object $user new User object wth user details
+    * @return boolean true
     */
     public function updateProfile($user)
     {
         $this->validation['name']['format'][] = $this->name;
-        $user->validation['email']['format'][] = $this->email;
+        $this->validation['email']['format'][] = $this->email;
         $this->email_exists = $this->checkAvailability($this->email, $check='existing_email');
         $this->validation['email']['availability'][] = $this->email_exists;
         $this->validation['email']['availability'][] = true;
-        $user->validation['confirm_password']['match'][] = $this->password;
-        $user->validation['confirm_password']['match'][] = $this->confirm_password;
-        $user->validate();
+        $this->validation['confirm_password']['match'][] = $this->password;
+        $this->validation['confirm_password']['match'][] = $this->confirm_password;
+        $this->validate();
 
         if($user->hasError()) {
-            throw new ValidationException("invalid inputs");
+            throw new ValidationException('invalid inputs');
         }
 
         $params = array(
@@ -154,6 +156,11 @@ class User extends AppModel
         return true;
     }
 
+    /**
+    * Check if user details are valid
+    * @param object $user new User object with user details
+    * @return array $row
+    */
     public function checkValidUser(User $user)
     {
         if(!$user->validate()) {
@@ -176,6 +183,7 @@ class User extends AppModel
 
     /**
     * Flag for unsuccessful login
+    * @return boolean $this->is_failed_login
     */
     public function isFailedLogin()
     {

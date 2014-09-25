@@ -4,23 +4,28 @@ class ThreadController extends AppController
     public function __construct($name)
     {
         parent::__construct($name);
-        if(is_logged_in() === false) {
+        if (is_logged_in() === false) {
             redirect($controller = 'user');
         }
     }
 
+    /**
+    * View threads made by all users
+    */
+
     public function index()
     {
         $page = Pagination::setPage(Param::get('page'));
-        $sort_by = Param::get('sort_by');
-        $sort_order = Param::get('sort_order');
 
-        $threads = Thread::getAll($sort_by, $sort_order, $page);
+        $threads = Thread::getAll($page);
         $page_links = Pagination::createPageLinks($page, Thread::countThreads());
 
         $this->set(get_defined_vars());
     }
 
+    /**
+    * View all comments for a specific thread
+    */
     public function view()
     {
         $thread = Thread::get(Param::get('thread_id'));
@@ -33,10 +38,13 @@ class ThreadController extends AppController
         $this->set(get_defined_vars());
     }
 
+    /**
+    * Write a new comment for a specific thread
+    */
     public function write()
     {
-        $thread = Thread::get(Param::get('thread_id'));
         $comment = new Comment;
+        $thread = Thread::get(Param::get('thread_id'));
         $page = Param::get('page_next');
 
         switch ($page) {
@@ -44,6 +52,7 @@ class ThreadController extends AppController
                 break;
             case 'write_end':
                 $comment->body = Param::get('body');
+
                 try {
                     $thread->write($comment);
                 } catch (ValidationException $e) {
@@ -59,6 +68,9 @@ class ThreadController extends AppController
         $this->render($page);
     }
 
+    /**
+    * Create a new thread
+    */
     public function create()
     {
         $thread = new Thread;
@@ -71,6 +83,7 @@ class ThreadController extends AppController
             case 'create_end':
                 $thread->title = Param::get('title');
                 $comment->body = Param::get('body');
+
                 try {
                     $thread->create($comment);
                 } catch (ValidationException $e) {                    

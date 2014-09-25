@@ -1,9 +1,12 @@
 <?php
 class UserController extends AppController
 {
+    /**
+    * Register a new user
+    */
     public function register()
     {
-        if(is_logged_in()) {
+        if (is_logged_in()) {
             redirect($controller = 'thread');
         }
 
@@ -28,16 +31,19 @@ class UserController extends AppController
                 break;
             default:
                 throw new NotFoundException("{$page} not found");
-            break;
+                break;
         }
 
         $this->set(get_defined_vars());
         $this->render($page);
     }
 
+    /**
+    * Log in using an existing user's credentials
+    */
     public function login()
     {
-        if(is_logged_in()) {
+        if (is_logged_in()) {
             redirect($controller = 'thread');
         }
 
@@ -70,24 +76,27 @@ class UserController extends AppController
         $this->render($page);
     }
 
+    /**
+    * Edit user profile
+    */
     public function profile()
     {
-        if(is_logged_in() === false) {
+        if (is_logged_in() === false) {
             redirect();
         }
 
-        $update = false;
+        $is_updated = false;
         $user = new User;
         $user->id = $_SESSION['id'];
-        $details = $user->getDetails($user->id);
+        $details = $user->getUserDetails($user->id);
 
-        if(isset($_POST['btnEdit'])) {
+        if (isset($_POST['btnEdit'])) {
             try {
                 $user->name = Param::get('name');
                 $user->email = Param::get('email');
                 $user->password = Param::get('password');
                 $user->confirm_password = Param::get('confirm_password');
-                $update = $user->updateProfile($user);
+                $is_updated = $user->updateProfile($user);
             } catch (ValidationException $e) {
                 //invalid input message set to view
             }
@@ -96,6 +105,9 @@ class UserController extends AppController
         $this->set(get_defined_vars());
     }
 
+    /**
+    * Log out user
+    */
     public function logout()
     {
         session_unset();

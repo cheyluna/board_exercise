@@ -1,5 +1,4 @@
 <?php
-
 function eh($string)
 {
     if (!isset($string)) return;
@@ -15,7 +14,7 @@ function readable_text($string)
 
 function letters_only($string)
 {
-    return preg_match ("/^[a-zA-Z\s]+$/",$string);
+    return preg_match ('/^[a-zA-Z\s]+$/',$string);
 }
 
 function email_valid($email)
@@ -23,9 +22,9 @@ function email_valid($email)
     return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
 
-function is_not_available($str1, $str2 = true, $inverse = true)
+function is_not_available($string1, $string2 = true, $inverse = true)
 {
-    $is_match = ($str1 === $str2);
+    $is_match = ($string1 === $string2);
     return $inverse !== $is_match;
 }
 

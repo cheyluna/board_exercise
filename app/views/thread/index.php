@@ -28,4 +28,4 @@
     <?php echo $page_links ?>
 </div>
 
-<a class="btn btn-large btn-primary" href="<?php eh(url('thread/create')) ?>">Create</a>
+<a class="btn btn-primary" href="<?php eh(url('thread/create')) ?>">Create New Thread</a>

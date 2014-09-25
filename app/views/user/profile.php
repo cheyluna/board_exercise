@@ -1,6 +1,6 @@
 <h1>Edit Profile</h1>
 
-<?php if($update === true): ?>
+<?php if($is_updated): ?>
     <div class="alert alert-block alert-success">
     <h4 class="alert-heading">Profile Updated!</h4>
     </div>
