@@ -104,13 +104,14 @@ class User extends AppModel
 
         $db = DB::conn();
         $row = $db->value($query, array($input));
+
         return $row;
     }
 
     /**
     * Get information for single user
     * @param int $user_id user ID
-    * @return array $row
+    * @return object $row
     */
     public function getUserDetails($user_id)
     {
@@ -163,7 +164,7 @@ class User extends AppModel
     /**
     * Check if user details are valid
     * @param object $user new User object with user details
-    * @return array $row
+    * @return object $row
     */
     public function checkValidUser(User $user)
     {
