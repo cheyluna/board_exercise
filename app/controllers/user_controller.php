@@ -90,7 +90,7 @@ class UserController extends AppController
         $user->id = $_SESSION['id'];
         $details = $user->getUserDetails($user->id);
 
-        if (isset($_POST['btnEdit'])) {
+        if (isset($_POST['btn_edit_profile'])) {
             try {
                 $user->name = Param::get('name');
                 $user->email = Param::get('email');

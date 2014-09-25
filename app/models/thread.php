@@ -39,10 +39,11 @@ class Thread extends AppModel
         $threads = array();
 
         $db = DB::conn();
-        $rows = $db->rows('SELECT t.id, t.title, u.name, t.created
-        FROM thread t
-        INNER JOIN user u ON t.user_id = u.id
-        ORDER BY created DESC'
+        $rows = $db->rows('
+            SELECT t.id, t.title, u.name, t.created
+            FROM thread t
+            INNER JOIN user u ON t.user_id = u.id
+            ORDER BY created DESC'
         );
         foreach ($rows as $row) {
             $threads[] = new Thread($row);
@@ -63,12 +64,13 @@ class Thread extends AppModel
         $comments = array();
 
         $db = DB::conn();
-        $rows = $db->rows('SELECT c.id, c.body, u.name, c.created
-        FROM comment c
-        INNER JOIN user u ON c.user_id = u.id
-        WHERE thread_id = ?
-        ORDER BY created ASC',
-        array($this->id)
+        $rows = $db->rows('
+            SELECT c.id, c.body, u.name, c.created
+            FROM comment c
+            INNER JOIN user u ON c.user_id = u.id
+            WHERE thread_id = ?
+            ORDER BY created ASC',
+            array($this->id)
         );
         foreach ($rows as $row) {
             $comments[] = new Comment($row);
@@ -90,9 +92,10 @@ class Thread extends AppModel
         }
 
         $db = DB::conn();
-        $db->query('INSERT INTO comment
-        SET thread_id = ?, user_id = ?, body = ?, created = NOW()',
-        array($this->id, $_SESSION['id'], $comment->body)
+        $db->query('
+            INSERT INTO comment
+            SET thread_id = ?, user_id = ?, body = ?',
+            array($this->id, $_SESSION['id'], $comment->body)
         );
     }
 
@@ -173,10 +176,11 @@ class Thread extends AppModel
     public static function countComments($thread_id)
     {
         $db = DB::conn();
-        $comment_count = $db->value('SELECT COUNT(id)
-        FROM comment
-        WHERE thread_id = ?',
-        array($thread_id)
+        $comment_count = $db->value('
+            SELECT COUNT(id)
+            FROM comment
+            WHERE thread_id = ?',
+            array($thread_id)
         );
 
         return $comment_count;

@@ -52,7 +52,7 @@
     </tr>
     <tr>
         <td> </td>
-        <td> <button type="submit" class="btn btn-block btn-primary" name="btnEdit">Update</button> </td>
+        <td> <button type="submit" class="btn btn-block btn-primary" name="btn_edit_profile">Update</button> </td>
     </tr>
 </table>
 </form>

@@ -68,10 +68,10 @@ class User extends AppModel
             throw new ValidationException('invalid inputs');
         } else {
             $params = array(
-            'name' => $this->name,
-            'email' => $this->email,
-            'username' => $this->username,
-            'password' => sha1($this->password)
+                'name' => $this->name,
+                'email' => $this->email,
+                'username' => $this->username,
+                'password' => sha1($this->password)
             );
         }
 
@@ -115,8 +115,12 @@ class User extends AppModel
     public function getUserDetails($user_id)
     {
         $db = DB::conn();
-        $row = $db->row('SELECT id, name, username, email FROM user WHERE id = ?',
-        array($user_id));
+        $row = $db->row('
+            SELECT id, name, username, email
+            FROM user
+            WHERE id = ?',
+            array($user_id)
+        );
 
         return ($row) ? new self($row) : null;
     }
@@ -168,9 +172,11 @@ class User extends AppModel
         }
 
         $db = DB::conn();
-        $row = $db->row(
-        'SELECT * FROM user WHERE username = ? AND password = ?',
-        array($user->username, $user->sha1_password)
+        $row = $db->row('
+            SELECT *
+            FROM user
+            WHERE username = ? AND password = ?',
+            array($user->username, $user->sha1_password)
         );
 
         if (!$row) {

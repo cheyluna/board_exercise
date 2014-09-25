@@ -12,13 +12,12 @@ class ThreadController extends AppController
     /**
     * View threads made by all users
     */
-
     public function index()
     {
-        $page = Pagination::setPage(Param::get('page'));
+        $current_page = Pagination::setPage(Param::get('page'));
 
-        $threads = Thread::getAll($page);
-        $page_links = Pagination::createPageLinks($page, Thread::countThreads());
+        $threads = Thread::getAll($current_page);
+        $page_links = Pagination::createPageLinks($current_page, Thread::countThreads());
 
         $this->set(get_defined_vars());
     }
@@ -29,11 +28,11 @@ class ThreadController extends AppController
     public function view()
     {
         $thread = Thread::get(Param::get('thread_id'));
-        $page = Pagination::setPage(Param::get('page'));
+        $current_page = Pagination::setPage(Param::get('page'));
 
-        $comments = $thread->getComments($page);
+        $comments = $thread->getComments($current_page);
         Pagination::$pagination_for = 'comment';
-        $page_links = Pagination::createPageLinks($page, Thread::countComments($thread->id));
+        $page_links = Pagination::createPageLinks($current_page, Thread::countComments($thread->id));
 
         $this->set(get_defined_vars());
     }
