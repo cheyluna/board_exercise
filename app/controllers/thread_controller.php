@@ -4,7 +4,7 @@ class ThreadController extends AppController
     public function __construct($name)
     {
         parent::__construct($name);
-        if (is_logged_in() === false) {
+        if (!is_logged_in()) {
             redirect($controller = 'user');
         }
     }

@@ -81,7 +81,7 @@ class UserController extends AppController
     */
     public function profile()
     {
-        if (is_logged_in() === false) {
+        if (!is_logged_in()) {
             redirect();
         }
 
