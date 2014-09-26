@@ -10,11 +10,15 @@ require_once VENDOR_DIR.'SimpleDBI/SimpleDBI.php';
 
 // helpers
 require_once HELPERS_DIR.'html_helper.php';
+require_once HELPERS_DIR.'validation_helper.php';
 
 // config
 require_once CONFIG_DIR.'log.php';
 require_once CONFIG_DIR.'router.php';
 require_once CONFIG_DIR.'database.php';
+
+// lib
+require_once LIB_DIR.'pagination.php';
 
 spl_autoload_register(function($name) {
     $filename = Inflector::underscore($name) . '.php';
@@ -26,3 +30,6 @@ spl_autoload_register(function($name) {
         }
     }
 });
+
+// enable session here because an error was encountered when enabled on core.php
+session_start();
