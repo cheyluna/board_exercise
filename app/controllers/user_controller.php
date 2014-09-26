@@ -88,7 +88,7 @@ class UserController extends AppController
         $is_updated = false;
         $user = new User;
         $user->id = $_SESSION['id'];
-        $details = $user->getUserDetails($user->id);
+        $details = $user->getDetails($user->id);
 
         if (isset($_POST['btn_edit_profile'])) {
             try {

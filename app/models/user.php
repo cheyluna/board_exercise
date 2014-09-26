@@ -113,7 +113,7 @@ class User extends AppModel
     * @param int $user_id user ID
     * @return object $row
     */
-    public function getUserDetails($user_id)
+    public function getDetails($user_id)
     {
         $db = DB::conn();
         $row = $db->row('
