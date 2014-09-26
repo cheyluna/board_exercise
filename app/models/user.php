@@ -64,7 +64,7 @@ class User extends AppModel
         $this->validation['confirm_password']['match'][] = $this->confirm_password;
         $this->validate();
 
-        if($this->hasError()) {
+        if ($this->hasError()) {
             throw new ValidationException('invalid inputs');
         } else {
             $params = array(
@@ -142,7 +142,7 @@ class User extends AppModel
         $this->validation['confirm_password']['match'][] = $this->confirm_password;
         $this->validate();
 
-        if($user->hasError()) {
+        if ($user->hasError()) {
             throw new ValidationException('invalid inputs');
         }
 
@@ -168,7 +168,7 @@ class User extends AppModel
     */
     public function checkValidUser(User $user)
     {
-        if(!$user->validate()) {
+        if (!$user->validate()) {
             throw new ValidationException('invalid user');
         }
 
