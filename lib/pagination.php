@@ -83,7 +83,7 @@ class Pagination
 
     public static function createPreviousLink($page_num, $previous)
     {
-        if ($page_num > 1) {
+        if ($page_num > self::FIRST_PAGE) {
             switch (self::$pagination_for) {
                 case 'comment':
                     return "<a class='btn btn-small' href='?thread_id=" . Param::get('thread_id') . "&page={$previous}'><</a> &nbsp; &nbsp;";
